@@ -8,6 +8,7 @@ namespace SpriteKind {
     export const Plan = SpriteKind.create()
     export const Plant = SpriteKind.create()
     export const FrozenPea = SpriteKind.create()
+    export const BurningPea = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Sun, SpriteKind.SunCounter, function (sprite, otherSprite) {
     sprite.destroy()
@@ -77,7 +78,7 @@ sprites.onOverlap(SpriteKind.FrozenPea, SpriteKind.Enemy, function (sprite, othe
         . . . 9 9 9 9 . 9 9 9 9 . . . . 
         . . . . . . . . 9 9 9 9 . . . . 
         `],
-    1000,
+    2000,
     true
     )
     sprite.startEffect(effects.coolRadial, 100)
@@ -85,7 +86,7 @@ sprites.onOverlap(SpriteKind.FrozenPea, SpriteKind.Enemy, function (sprite, othe
     otherSprite.lifespan += -142857142
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (6 == SelectedPlant) {
+    if (7 == SelectedPlant) {
         SelectedPlant = 1
     } else {
         SelectedPlant += 1
@@ -118,6 +119,11 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             tiles.setTileAt(mySprite.tilemapLocation(), assets.tile`myTile4`)
         }
     } else if (SelectedPlant == 6) {
+        if (174 < SunCount && !(tiles.tileAtLocationEquals(mySprite.tilemapLocation(), sprites.builtin.brick))) {
+            SunCount += -175
+            tiles.setTileAt(mySprite.tilemapLocation(), assets.tile`Torchwood0`)
+        }
+    } else if (SelectedPlant == 7) {
         if (!(tiles.tileAtLocationEquals(mySprite.tilemapLocation(), sprites.builtin.brick))) {
             tiles.setWallAt(mySprite.tilemapLocation(), false)
             tiles.setTileAt(mySprite.tilemapLocation(), sprites.castle.tileGrass3)
@@ -155,11 +161,60 @@ scene.onOverlapTile(SpriteKind.Enemy, assets.tile`Peashooter1`, function (sprite
     PlantHealth.setPosition(location.x, location.y)
     PlantHealth.lifespan = 6000
 })
+sprites.onCreated(SpriteKind.BurningPea, function (sprite) {
+    sprite.vx = 25
+    sprite.lifespan = 6200
+    sprite.setFlag(SpriteFlag.GhostThroughWalls, true)
+})
+scene.onOverlapTile(SpriteKind.FrozenPea, assets.tile`Torchwood0`, function (sprite, location) {
+    sprite.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 5 2 4 5 . . . . . . 
+        . . . . . 2 4 5 5 2 4 . . . . . 
+        . . . . . 4 5 5 2 5 2 . . . . . 
+        . . . . . 5 4 2 5 5 4 . . . . . 
+        . . . . . 2 5 4 2 4 2 . . . . . 
+        . . . . . . 4 5 4 5 . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    sprite.startEffect(effects.fire)
+    sprite.setKind(SpriteKind.BurningPea)
+})
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     grid.snap(mySprite)
 })
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
     grid.snap(mySprite)
+})
+scene.onOverlapTile(SpriteKind.Pea, assets.tile`Torchwood0`, function (sprite, location) {
+    sprite.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 5 2 4 5 . . . . . . 
+        . . . . . 2 4 5 5 2 4 . . . . . 
+        . . . . . 4 5 5 2 5 2 . . . . . 
+        . . . . . 5 4 2 5 5 4 . . . . . 
+        . . . . . 2 5 4 2 4 2 . . . . . 
+        . . . . . . 4 5 4 5 . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    sprite.startEffect(effects.fire)
+    sprite.setKind(SpriteKind.BurningPea)
 })
 scene.onOverlapTile(SpriteKind.Enemy, assets.tile`Peashooter`, function (sprite, location) {
     tiles.setWallAt(location, true)
@@ -189,6 +244,52 @@ sprites.onCreated(SpriteKind.FrozenPea, function (sprite) {
     sprite.vx = 25
     sprite.lifespan = 6200
     sprite.setFlag(SpriteFlag.GhostThroughWalls, true)
+})
+sprites.onOverlap(SpriteKind.BurningPea, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprite.destroy(effects.warmRadial, 100)
+    otherSprite.startEffect(effects.fire, 100)
+    otherSprite.vx = -2.5
+    animation.runImageAnimation(
+    otherSprite,
+    [img`
+        . . . . f f f f f f f . . . . . 
+        . . . f 7 7 7 7 7 7 7 f . . . . 
+        . . . f 1 1 1 7 1 1 1 f . . . . 
+        . . . f f 1 1 7 f 1 1 f . . . . 
+        . . . f 1 1 1 7 1 1 1 f . . . . 
+        . . . f 7 7 7 7 7 7 7 f . . . . 
+        . . . f e e e 7 7 7 7 f . . . . 
+        . . . f e e e 7 7 7 7 f . . . . 
+        . . . . f f f f f f f . . . . . 
+        . . . e e e d 2 d e e e . . . . 
+        . e e e e e 2 2 d e e e e e . . 
+        . e . e e e 2 d d e e e . e . . 
+        . e . e e e d d d e e e . e . . 
+        . 7 . 8 8 8 8 . 8 8 8 8 . 7 . . 
+        . . . 8 8 8 8 . 8 8 8 8 . . . . 
+        . . . 8 8 8 8 . . . . . . . . . 
+        `,img`
+        . . . . f f f f f f f . . . . . 
+        . . . f 7 7 7 7 7 7 7 f . . . . 
+        . . . f 1 1 1 7 1 1 1 f . . . . 
+        . . . f f 1 1 7 f 1 1 f . . . . 
+        . . . f 1 1 1 7 1 1 1 f . . . . 
+        . . . f 7 7 7 7 7 7 7 f . . . . 
+        . . . f e e e 7 7 7 7 f . . . . 
+        . . . f e e e 7 7 7 7 f . . . . 
+        . . . . f f f f f f f . . . . . 
+        . . . e e e d 2 d e e e . . . . 
+        . e e e e e 2 2 d e e e e e . . 
+        . e . e e e 2 d d e e e . e . . 
+        . e . e e e d d d e e e . e . . 
+        . 7 . 8 8 8 8 . 8 8 8 8 . 7 . . 
+        . . . 8 8 8 8 . 8 8 8 8 . . . . 
+        . . . . . . . . 8 8 8 8 . . . . 
+        `],
+    1000,
+    true
+    )
+    otherSprite.lifespan += -285714284
 })
 sprites.onDestroyed(SpriteKind.Plant, function (sprite) {
     tiles.setWallAt(sprite.tilemapLocation(), false)
@@ -246,6 +347,31 @@ sprites.onDestroyed(SpriteKind.Enemy, function (sprite) {
         value.setKind(SpriteKind.Food)
     }
     sprites.destroyAllSpritesOfKind(SpriteKind.Food)
+})
+scene.onOverlapTile(SpriteKind.Enemy, assets.tile`Torchwood0`, function (sprite, location) {
+    tiles.setWallAt(location, true)
+    sprite.x += 2
+    PlantHealth = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . f 
+        . . . . . . . . . . . . . . . f 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Plant)
+    PlantHealth.startEffect(effects.fire)
+    PlantHealth.setPosition(location.x, location.y)
+    PlantHealth.lifespan = 8000
 })
 scene.onOverlapTile(SpriteKind.Enemy, assets.tile`myTile4`, function (sprite, location) {
     tiles.setWallAt(location, true)
@@ -361,6 +487,9 @@ game.onUpdate(function () {
     } else if (SelectedPlant == 6) {
         PlantSelector1.setPosition(88, 88)
         PlantSelector2.setPosition(88, 104)
+    } else if (SelectedPlant == 7) {
+        PlantSelector1.setPosition(104, 88)
+        PlantSelector2.setPosition(104, 104)
     }
     grid.snap(PlantSelector1)
     grid.snap(PlantSelector2)

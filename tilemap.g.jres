@@ -100,6 +100,24 @@
         "tilemapTile": true,
         "displayName": "myTile10"
     },
+    "tile17": {
+        "data": "hwQQABAAAAB3d3d3d3d3d3d3d3d3d+d+d3d3d3d37nd3RO7u7u5+d0dU7u7u7u5+RFX+7uHu7ndUJe7v4e5+d1Qi7u7v7u53VCLu7u/u7ndUJe7v7+7ufkRV/u7u7n53R1Tu7u7u7nd3RO7u7u7ud3d3d3d3d+53d3d3d3d35353d3d3d3d3dw==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "Torchwood0"
+    },
+    "tile18": {
+        "data": "hwQQABAAAAAREREREREREdHd3d3d3d3u0d3d3d3d7d7RTeTu7u7u3dFE5e7u7u7uQVTl7x7u7t5BVeL+Hu7u3UEl4u7+7u7eQSXi7v7u7t5BVeL+/u7u7kFU5e/u7u7d0UTl7u7u7t7RTeTu7u7u3tHd3d3d3e3e0d3d3d3d3e4REREREREREQ==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "Torchwood"
+    },
+    "tile20": {
+        "data": "hwQQABAAAAAREREREREREd3d3d3d3d0d3d3d3d3d3R3d3f3d3d3dHd3d////3d0d3d3d3d3d3R3d3d/d/d3dHd3d3/3f3d0d3d3/393d3R3d3d3d3d3dHd3d/9/93d0d3d3f3/3d3R3d3d///93dHd3d3d3d3d0d3d3d3d3d3R0REREREREREQ==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "myTile13"
+    },
     "level2": {
         "id": "level2",
         "mimeType": "application/mkcd-tilemap",
@@ -112,7 +130,7 @@
     "level1": {
         "id": "level1",
         "mimeType": "application/mkcd-tilemap",
-        "data": "MTAwYTAwMDgwMDA0MDIwMjAyMDEwMzAzMDIwMjAxMDQwMjAyMDMwMjAyMDMwMTAzMDMwNDAzMDEwMjAzMDEwMjAyMDIwMzA0MDIwMjAyMDMwMjAyMDMwMzAxMDQwMjAyMDIwMjAxMDIwMjAzMDIwYTA2MDcwODA5MGYwNTA1MDUwNTBiMGUwZTBjMGQxMDA1MDUwNTA1MDUwNTA1MDUwNTA1MDUwNTA1MDUwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMg==",
+        "data": "MTAwYTAwMDgwMDA0MDIwMjAyMDEwMzAzMDIwMjAxMDQwMjAyMDMwMjAyMDMwMTAzMDMwNDAzMDEwMjAzMDEwMjAyMDIwMzA0MDIwMjAyMDMwMjAyMDMwMzAxMDQwMjAyMDIwMjAxMDIwMjAzMDIwYTA2MDcwODA5MTEwZjA1MDUwNTBiMGUwZTBjMGQxMjEwMDUwNTA1MDUwNTA1MDUwNTA1MDUwNTA1MDUwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMg==",
         "tileset": [
             "myTiles.transparency16",
             "sprites.castle.tileGrass2",
@@ -130,7 +148,9 @@
             "myTiles.tile13",
             "myTiles.tile14",
             "myTiles.tile15",
-            "myTiles.tile16"
+            "myTiles.tile16",
+            "myTiles.tile18",
+            "myTiles.tile20"
         ],
         "displayName": "level1"
     },
